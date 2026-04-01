@@ -1,0 +1,22 @@
+module.exports = [
+  { id: "F01", name: "Dang ky tai khoan" },
+  { id: "F02", name: "Dang nhap" },
+  { id: "F03", name: "Dang xuat" },
+  { id: "F04", name: "Quen mat khau" },
+  { id: "F05", name: "Cap nhat ho so ca nhan" },
+  { id: "F06", name: "Doi mat khau" },
+  { id: "F07", name: "Xem danh sach bai hat" },
+  { id: "F08", name: "Tim kiem bai hat" },
+  { id: "F09", name: "Xem chi tiet bai hat" },
+  { id: "F10", name: "Phat nhac truc tuyen" },
+  { id: "F11", name: "Tam dung, tiep tuc, tua bai hat" },
+  { id: "F12", name: "Chuyen bai truoc va bai sau" },
+  { id: "F13", name: "Dieu chinh am luong" },
+  { id: "F14", name: "Them bai hat vao yeu thich" },
+  { id: "F15", name: "Tao playlist" },
+  { id: "F16", name: "Them hoac xoa bai hat khoi playlist" },
+  { id: "F17", name: "Lich su nghe nhac" },
+  { id: "F18", name: "Binh luan hoac danh gia bai hat" },
+  { id: "F19", name: "Quan tri them, sua, xoa bai hat" },
+  { id: "F20", name: "Quan tri the loai, ca si, album va nguoi dung" }
+];

@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  push:
+    branches: ["main", "master"]
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 22
+          cache: maven
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run Spring Boot tests
+        run: mvn -B test
+
+      - name: Install Playwright dependencies
+        run: |
+          npm install
+          npx playwright install --with-deps chromium
+
+      - name: Start Spring Boot app
+        run: |
+          nohup mvn -B spring-boot:run > spring.log 2>&1 &
+          for i in {1..60}; do
+            if curl -fsS http://127.0.0.1:8080/api/health; then
+              exit 0
+            fi
+            sleep 2
+          done
+          cat spring.log
+          exit 1
+
+      - name: Run Playwright tests
+        run: npm run test:e2e
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            playwright-report
+            test-results
+            spring.log

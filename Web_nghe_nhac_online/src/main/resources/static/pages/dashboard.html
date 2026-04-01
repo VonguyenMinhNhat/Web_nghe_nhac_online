@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WaveBeat - Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div class="sidebar-top">
+                <div class="brand simple-brand">
+                    <div class="brand-copy">
+                        <h1>WaveBeat</h1>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a class="menu-item nav-link" href="/pages/dashboard.html">Trang chính</a>
+                <a class="menu-item nav-link" href="/pages/playlists.html">Playlist</a>
+                <a class="menu-item nav-link" href="/pages/account.html">Tài khoản</a>
+                <a class="menu-item nav-link" href="/pages/admin.html">Quản trị</a>
+            </nav>
+
+            <section class="panel stat-panel compact-card">
+                <p class="panel-title">Tổng quan</p>
+                <div class="stat-grid">
+                    <article>
+                        <strong id="songCount">0</strong>
+                        <span>Bài hát</span>
+                    </article>
+                    <article>
+                        <strong id="favoriteCount">0</strong>
+                        <span>Yêu thích</span>
+                    </article>
+                    <article>
+                        <strong id="playlistCount">0</strong>
+                        <span>Playlist</span>
+                    </article>
+                </div>
+            </section>
+
+            <section class="panel playlist-panel">
+                <div class="panel-header">
+                    <div>
+                        <p class="panel-title">Playlist</p>
+                        <strong>Của bạn</strong>
+                    </div>
+                </div>
+                <div class="playlist-form">
+                    <input id="playlistInput" type="text" placeholder="Tên playlist">
+                    <button id="createPlaylistBtn" type="button">Thêm</button>
+                </div>
+                <ul id="playlistList" class="playlist-list"></ul>
+            </section>
+        </aside>
+
+        <main class="content">
+            <section class="topbar">
+                <div class="topbar-left">
+                    <label class="search-box top-search">
+                        <input id="searchInput" type="search" placeholder="Tìm bài hát, ca sĩ...">
+                    </label>
+                </div>
+                <div class="topbar-right">
+                    <a class="top-action dark-chip" href="/pages/dashboard.html">Nghe nhạc</a>
+                    <a class="top-action" href="/pages/playlists.html">Playlist</a>
+                    <a class="top-action accent-chip" href="/pages/account.html">Tài khoản</a>
+                </div>
+            </section>
+
+            <section class="welcome-bar">
+                <div>
+                    <h2>Trang nghe nhạc</h2>
+                    <p class="muted welcome-copy">Khám phá, chọn bài và nghe nhạc ngay.</p>
+                </div>
+                <select id="genreSelect">
+                    <option value="all">Tất cả thể loại</option>
+                </select>
+            </section>
+
+            <section class="promo-grid">
+                <article class="promo-card promo-card-primary">
+                    <div class="promo-overlay">
+                        <p class="eyebrow">Nổi bật</p>
+                        <strong id="heroSongTitle">Đang tải...</strong>
+                        <p id="heroSongMeta">Đang tải...</p>
+                    </div>
+                </article>
+            </section>
+
+            <section class="section-head chart-head">
+                <div>
+                    <h3>Danh sách bài hát</h3>
+                </div>
+                <span id="resultCount" class="result-count">0 kết quả</span>
+            </section>
+
+            <section id="songGrid" class="song-grid chart-grid"></section>
+
+            <section class="detail-layout">
+                <section class="panel detail-panel">
+                    <div class="detail-head">
+                        <div>
+                            <p class="panel-title">Chi tiết</p>
+                            <h3 id="detailTitle">Chọn một bài hát</h3>
+                        </div>
+                        <button id="detailPlayBtn" type="button">Phát ngay</button>
+                    </div>
+                    <div class="detail-grid">
+                        <div class="detail-metric">
+                            <span>Ca sĩ</span>
+                            <strong id="detailArtist">-</strong>
+                        </div>
+                        <div class="detail-metric">
+                            <span>Album</span>
+                            <strong id="detailAlbum">-</strong>
+                        </div>
+                        <div class="detail-metric">
+                            <span>Thể loại</span>
+                            <strong id="detailGenre">-</strong>
+                        </div>
+                        <div class="detail-metric">
+                            <span>Thời lượng</span>
+                            <strong id="detailDuration">-</strong>
+                        </div>
+                        <div class="detail-metric">
+                            <span>Lượt nghe</span>
+                            <strong id="detailPlays">-</strong>
+                        </div>
+                        <div class="detail-metric">
+                            <span>Đánh giá</span>
+                            <strong id="detailRating">-</strong>
+                        </div>
+                    </div>
+                    <div class="detail-actions">
+                        <select id="detailPlaylistSelect"></select>
+                        <button id="detailAddPlaylistBtn" type="button">Thêm playlist</button>
+                        <button id="detailFavoriteBtn" type="button">Yêu thích</button>
+                    </div>
+                    <div class="youtube-embed">
+                        <input id="youtubeUrlInput" type="url" placeholder="Dán link YouTube...">
+                        <button id="embedYoutubeBtn" type="button">Nhúng YouTube</button>
+                        <button id="youtubeCloseBtn" type="button">Đóng</button>
+                        <div id="youtubePlayerContainer" class="youtube-player"></div>
+                    </div>
+                </section>
+
+                <section class="panel comments-panel">
+                    <div>
+                        <p class="panel-title">Tương tác</p>
+                        <h3>Bình luận</h3>
+                    </div>
+                    <div class="form-grid">
+                        <textarea id="commentInput" rows="4" placeholder="Viết bình luận ngắn..."></textarea>
+                        <input id="ratingInput" type="number" min="1" max="5" value="5">
+                        <div class="button-row">
+                            <button id="submitCommentBtn" type="button">Gửi</button>
+                            <button id="submitRatingBtn" type="button">Chấm điểm</button>
+                        </div>
+                    </div>
+                    <ul id="commentList" class="activity-list"></ul>
+                </section>
+            </section>
+
+            <section class="content-grid">
+                <section class="panel">
+                    <div class="panel-header">
+                        <div>
+                            <p class="panel-title">Lịch sử</p>
+                            <strong>Đã nghe</strong>
+                        </div>
+                        <button id="clearHistoryBtn" type="button">Xóa</button>
+                    </div>
+                    <ul id="historyList" class="activity-list"></ul>
+                </section>
+            </section>
+        </main>
+    </div>
+
+    <div id="songDetailModal" class="detail-modal" aria-hidden="true">
+        <div class="detail-modal-backdrop" data-close-detail="true"></div>
+        <section class="detail-modal-card">
+            <div class="detail-head">
+                <div>
+                    <p class="panel-title">Chi tiết bài hát</p>
+                    <h3 id="modalDetailTitle">Chọn một bài hát</h3>
+                </div>
+                <button id="closeDetailModalBtn" type="button">Đóng</button>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-metric">
+                    <span>Ca sĩ</span>
+                    <strong id="modalDetailArtist">-</strong>
+                </div>
+                <div class="detail-metric">
+                    <span>Album</span>
+                    <strong id="modalDetailAlbum">-</strong>
+                </div>
+                <div class="detail-metric">
+                    <span>Thể loại</span>
+                    <strong id="modalDetailGenre">-</strong>
+                </div>
+                <div class="detail-metric">
+                    <span>Thời lượng</span>
+                    <strong id="modalDetailDuration">-</strong>
+                </div>
+                <div class="detail-metric">
+                    <span>Lượt nghe</span>
+                    <strong id="modalDetailPlays">-</strong>
+                </div>
+                <div class="detail-metric">
+                    <span>Đánh giá</span>
+                    <strong id="modalDetailRating">-</strong>
+                </div>
+            </div>
+            <div class="detail-actions">
+                <button id="modalPlayBtn" type="button">Phát ngay</button>
+                <button id="modalFavoriteBtn" type="button">Yêu thích</button>
+            </div>
+        </section>
+    </div>
+
+    <div id="loadingIndicator" class="loading-indicator" aria-live="polite">Đang tải...</div>
+    <div id="toastContainer" class="toast-container"></div>
+
+    <footer class="player-bar">
+        <div class="player-now">
+            <div class="cover-art waveform-box" id="coverArt">WB</div>
+            <div>
+                <strong id="nowPlayingTitle">Chưa chọn bài hát</strong>
+                <p id="nowPlayingMeta">Chọn bài để bắt đầu</p>
+            </div>
+        </div>
+        <div class="player-controls">
+            <button id="prevBtn" type="button">Trước</button>
+            <button id="playBtn" type="button" class="play-btn">Phát</button>
+            <button id="nextBtn" type="button">Tiếp</button>
+        </div>
+        <div class="progress-wrap">
+            <span id="currentTime">00:00</span>
+            <input id="progressBar" type="range" min="0" max="100" value="0">
+            <span id="duration">00:00</span>
+        </div>
+        <div class="volume-wrap">
+            <button id="muteBtn" type="button">Tắt tiếng</button>
+            <input id="volumeBar" type="range" min="0" max="1" step="0.01" value="0.5">
+        </div>
+    </footer>
+
+    <audio id="audioPlayer" preload="metadata"></audio>
+    <script src="/app.js"></script>
+</body>
+</html>

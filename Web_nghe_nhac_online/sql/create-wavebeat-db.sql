@@ -1,0 +1,5 @@
+IF DB_ID(N'WaveBeatDB') IS NULL
+BEGIN
+    CREATE DATABASE WaveBeatDB;
+END;
+GO

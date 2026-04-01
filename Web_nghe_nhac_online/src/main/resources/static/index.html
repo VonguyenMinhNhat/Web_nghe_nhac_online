@@ -1,0 +1,218 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WaveBeat - Trình nghe nhạc</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <h1>WaveBeat</h1>
+        <p>Giao diện nghe nhạc mới - đầy đủ 20 chức năng</p>
+      </div>
+      <nav class="main-nav">
+        <button class="tab-button active" data-target="libraryTab">Thu vien</button>
+        <button class="tab-button" data-target="accountTab">Tai khoan</button>
+        <button class="tab-button" data-target="adminTab">Quan tri</button>
+      </nav>
+    </header>
+
+    <main class="page-content">
+      <section id="libraryTab" class="tab-panel active">
+        <section class="dashboard-panel">
+          <div class="dashboard-overview">
+            <article>
+              <span>Bai hat</span>
+              <strong id="songCount" data-testid="song-count">0</strong>
+            </article>
+            <article>
+              <span>Yeuthich</span>
+              <strong id="favoriteCount" data-testid="favorite-count">0</strong>
+            </article>
+            <article>
+              <span>Playlist</span>
+              <strong id="playlistCount" data-testid="playlist-count">0</strong>
+            </article>
+          </div>
+
+          <div class="search-panel">
+            <input id="searchInput" data-testid="search-input" type="search" placeholder="Tim bai hat, ca si, album..." autocomplete="off">
+            <div class="filter-group">
+              <button class="filter-button" data-testid="filter-all" data-filter="all">Tat ca</button>
+              <button class="filter-button" data-testid="filter-trending" data-filter="trending">Noi bat</button>
+              <button class="filter-button" data-testid="filter-favorites" data-filter="favorites">Yeu thich</button>
+              <button class="filter-button" data-testid="filter-playlist" data-filter="playlist">Playlist</button>
+            </div>
+            <div class="playlist-creator">
+              <input id="playlistInput" data-testid="playlist-input" type="text" placeholder="Ten playlist">
+              <button id="createPlaylistBtn" data-testid="create-playlist-btn" type="button">Tao playlist</button>
+            </div>
+            <ul id="playlist-list" data-testid="playlist-list" class="admin-list"></ul>
+          </div>
+        </section>
+
+        <section class="song-list-section">
+          <div class="section-header">
+            <h2>Danh sach bai hat</h2>
+            <span id="resultCount" data-testid="result-count">0 ket qua</span>
+          </div>
+          <div id="songGrid" data-testid="song-grid" class="song-grid"></div>
+        </section>
+
+        <section class="detail-panel">
+          <div class="detail-header">
+            <div>
+              <p class="section-label">Chi tiet bai hat</p>
+              <h2 id="detailTitle" data-testid="detail-title">Chon mot bai hat de xem chi tiet</h2>
+            </div>
+            <button id="detailPlayBtn" data-testid="detail-play-btn" type="button">Phat</button>
+          </div>
+
+          <div class="detail-grid">
+            <div><strong>Ca si</strong><span id="detailArtist" data-testid="detail-artist">-</span></div>
+            <div><strong>Album</strong><span id="detailAlbum" data-testid="detail-album">-</span></div>
+            <div><strong>The loai</strong><span id="detailGenre" data-testid="detail-genre">-</span></div>
+            <div><strong>Thoi luong</strong><span id="detailDuration" data-testid="detail-duration">00:00</span></div>
+            <div><strong>Luot nghe</strong><span id="detailPlays" data-testid="detail-plays">0</span></div>
+            <div><strong>Danh gia</strong><span id="detailRating" data-testid="detail-rating">0</span></div>
+          </div>
+
+          <div class="detail-actions">
+            <button id="detailFavoriteBtn" data-testid="detail-favorite-btn" type="button">Yeu thich</button>
+            <select id="detailPlaylistSelect" data-testid="detail-playlist-select"></select>
+            <button id="detailAddPlaylistBtn" data-testid="detail-add-playlist-btn" type="button">Them playlist</button>
+          </div>
+        </section>
+
+        <section class="player-panel">
+          <div class="player-title">
+            <strong id="nowPlayingTitle" data-testid="now-playing-title">Chua co bai hat</strong>
+          </div>
+          <div class="player-controls">
+            <button id="prevBtn" data-testid="prev-btn" type="button">Truoc</button>
+            <button id="playBtn" data-testid="play-btn" type="button">Phat</button>
+            <button id="nextBtn" data-testid="next-btn" type="button">Sau</button>
+          </div>
+          <input id="progressBar" data-testid="progress-bar" type="range" min="0" max="100" value="0">
+          <div class="volume-row">
+            <button id="muteBtn" data-testid="mute-btn" type="button">Tat tieng</button>
+            <input id="volumeBar" data-testid="volume-bar" type="range" min="0" max="1" step="0.01" value="1">
+          </div>
+          <audio id="audioPlayer" preload="metadata"></audio>
+        </section>
+
+        <section class="interaction-section">
+          <div class="comment-card">
+            <h3>Binh luan</h3>
+            <textarea id="commentInput" data-testid="comment-input" rows="3" placeholder="Viet binh luan..."></textarea>
+            <input id="ratingInput" data-testid="rating-input" type="number" min="1" max="5" value="5">
+            <div class="comment-actions">
+              <button id="submitCommentBtn" data-testid="submit-comment-btn" type="button">Gui binh luan</button>
+              <button id="submitRatingBtn" data-testid="submit-rating-btn" type="button">Danh gia</button>
+            </div>
+            <ul id="commentList" data-testid="comment-list" class="comment-list"></ul>
+          </div>
+
+          <div class="history-card">
+            <div class="history-header">
+              <h3>Lich su nghe</h3>
+              <button id="clearHistoryBtn" data-testid="clear-history-btn" type="button">Xoa</button>
+            </div>
+            <ul id="historyList" data-testid="history-list" class="history-list"></ul>
+          </div>
+        </section>
+      </section>
+
+      <section id="accountTab" class="tab-panel">
+        <div class="card-grid">
+          <section class="card">
+            <h2>Dang ky / Dang nhap</h2>
+            <input id="authUsername" data-testid="auth-username" type="text" placeholder="Username">
+            <input id="authFullName" data-testid="auth-full-name" type="text" placeholder="Ho ten">
+            <input id="authEmail" data-testid="auth-email" type="email" placeholder="Email">
+            <input id="authPassword" data-testid="auth-password" type="password" placeholder="Mat khau">
+            <button id="registerBtn" data-testid="register-btn" type="button">Dang ky</button>
+            <button id="loginBtn" data-testid="login-btn" type="button">Dang nhap</button>
+            <button id="logoutBtn" data-testid="logout-btn" type="button">Dang xuat</button>
+          </section>
+
+          <section class="card">
+            <h2>Quen mat khau</h2>
+            <input id="forgotEmail" data-testid="forgot-email" type="email" placeholder="Email quen mat khau">
+            <button id="forgotBtn" data-testid="forgot-btn" type="button">Lay ma reset</button>
+            <input id="resetCode" data-testid="reset-code" type="text" placeholder="Reset code">
+            <input id="resetPassword" data-testid="reset-password" type="password" placeholder="Mat khau moi">
+            <button id="resetBtn" data-testid="reset-btn" type="button">Dat lai mat khau</button>
+          </section>
+
+          <section class="card">
+            <h2>Ho so</h2>
+            <input id="profileUsername" data-testid="profile-username" type="text" placeholder="Username">
+            <input id="profileFullName" data-testid="profile-full-name" type="text" placeholder="Ho ten">
+            <input id="profileEmail" data-testid="profile-email" type="email" placeholder="Email">
+            <button id="updateProfileBtn" data-testid="update-profile-btn" type="button">Cap nhat ho so</button>
+          </section>
+
+          <section class="card">
+            <h2>Doi mat khau</h2>
+            <input id="currentPassword" data-testid="current-password" type="password" placeholder="Mat khau hien tai">
+            <input id="newPassword" data-testid="new-password" type="password" placeholder="Mat khau moi">
+            <button id="changePasswordBtn" data-testid="change-password-btn" type="button">Doi mat khau</button>
+          </section>
+        </div>
+      </section>
+
+      <section id="adminTab" class="tab-panel">
+        <div class="card-grid">
+          <section class="card">
+            <h2>The loai</h2>
+            <input id="adminGenreName" type="text" placeholder="Ten the loai">
+            <button id="createGenreBtn" type="button">Them the loai</button>
+            <ul id="adminGenreList" class="admin-list"></ul>
+          </section>
+
+          <section class="card">
+            <h2>Ca si</h2>
+            <input id="adminArtistName" type="text" placeholder="Ten ca si">
+            <input id="adminArtistCountry" type="text" placeholder="Quoc gia">
+            <button id="createArtistBtn" type="button">Them ca si</button>
+            <ul id="adminArtistList" class="admin-list"></ul>
+          </section>
+
+          <section class="card">
+            <h2>Album</h2>
+            <input id="adminAlbumTitle" type="text" placeholder="Ten album">
+            <select id="adminAlbumArtistSelect"></select>
+            <button id="createAlbumBtn" type="button">Them album</button>
+            <ul id="adminAlbumList" class="admin-list"></ul>
+          </section>
+
+          <section class="card">
+            <h2>Bai hat</h2>
+            <input id="adminSongTitle" type="text" placeholder="Ten bai hat">
+            <select id="adminSongArtistSelect"></select>
+            <select id="adminSongAlbumSelect"></select>
+            <select id="adminSongGenreSelect"></select>
+            <button id="createSongBtn" type="button">Them bai hat</button>
+            <ul id="adminSongList" class="admin-list"></ul>
+          </section>
+
+          <section class="card admin-summary-card">
+            <h2>Thong ke</h2>
+            <div class="admin-summary-row"><strong>Users:</strong> <span id="adminTotalUsers">0</span></div>
+            <div class="admin-summary-row"><strong>Song:</strong> <span id="adminTotalSongs">0</span></div>
+            <div class="admin-summary-row"><strong>Artist:</strong> <span id="adminTotalArtists">0</span></div>
+            <div class="admin-summary-row"><strong>Album:</strong> <span id="adminTotalAlbums">0</span></div>
+            <div class="admin-summary-row"><strong>Genre:</strong> <span id="adminTotalGenres">0</span></div>
+          </section>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

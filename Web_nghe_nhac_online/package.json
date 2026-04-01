@@ -1,0 +1,15 @@
+{
+  "name": "wavebeat-e2e-tests",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Playwright scripts for testing 20 WaveBeat functions locally or on LambdaTest",
+  "scripts": {
+    "test:e2e": "playwright test",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:lambda": "playwright test --config=playwright.lambdatest.config.js"
+  },
+  "devDependencies": {
+    "@lambdatest/node-tunnel": "^4.0.11",
+    "@playwright/test": "^1.54.2"
+  }
+}

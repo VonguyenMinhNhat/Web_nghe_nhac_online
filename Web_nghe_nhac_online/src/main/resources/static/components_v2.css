@@ -1,0 +1,476 @@
+/* ============================================================================
+   COMPONENTS.CSS - Reusable UI Components (Buttons, Modals, Cards, Forms)
+   ============================================================================ */
+
+/* Panels & Cards */
+.panel {
+    padding: 14px;
+    border-radius: 18px;
+    background: var(--panel);
+    border: 1px solid var(--panel-line);
+    box-shadow: var(--shadow);
+}
+
+.compact-card {
+    margin-top: 12px;
+}
+
+.song-card {
+    display: grid;
+    grid-template-columns: 72px 1fr auto;
+    gap: 14px;
+    align-items: center;
+    padding: 14px 16px;
+    border-radius: 16px;
+    background: #222323;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    transition: all var(--transition);
+}
+
+.song-card:hover {
+    background: #2d2d2d;
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.song-card h4, .song-card p {
+    margin: 0;
+}
+
+.song-card h4 {
+    font-size: 0.95rem;
+    margin-bottom: 4px;
+}
+
+.song-card p {
+    color: var(--muted);
+    font-size: 0.85rem;
+}
+
+.song-card-top {
+    display: contents;
+}
+
+.genre-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    border-radius: 14px;
+    background: #343434;
+    color: #f8f2e9;
+    font-weight: 800;
+    font-size: 0.78rem;
+    text-align: center;
+}
+
+/* Buttons */
+.menu-item, .tab-btn, .top-action, .primary-btn, .secondary-btn {
+    border-radius: 14px;
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.08);
+    transition: transform var(--transition), background var(--transition);
+    padding: 10px 12px;
+}
+
+.menu-item {
+    text-align: left;
+    background: transparent;
+    font-weight: 600;
+    width: 100%;
+}
+
+.menu-item.active, .menu-item:hover,
+.tab-btn.active, .tab-btn:hover {
+    background: rgba(255, 255, 255, 0.14);
+    transform: translateY(-1px);
+}
+
+.top-action {
+    border-radius: 999px;
+    font-weight: 700;
+    padding: 10px 14px;
+}
+
+.primary-btn, .play-btn, .accent-chip {
+    background: var(--accent);
+    color: #072228;
+    font-weight: 800;
+}
+
+.primary-btn:hover, .play-btn:hover {
+    background: #1fb8d8;
+    transform: translateY(-2px);
+}
+
+.secondary-btn {
+    padding: 10px 12px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text);
+}
+
+.secondary-btn:hover {
+    background: rgba(255, 255, 255, 0.14);
+    transform: translateY(-1px);
+}
+
+.secondary-btn.is-active {
+    background: rgba(37, 198, 229, 0.2);
+    color: #8defff;
+}
+
+.login-side-btn {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 999px;
+    font-weight: 700;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text);
+    transition: all var(--transition);
+}
+
+.login-side-btn:hover {
+    background: rgba(255, 255, 255, 0.14);
+    transform: translateY(-1px);
+}
+
+/* Forms */
+.playlist-form {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.search-box input,
+.playlist-form input,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select,
+textarea,
+.form-grid input {
+    width: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 14px;
+    background: #373737;
+    color: var(--text);
+    padding: 10px 12px;
+    outline: none;
+    transition: all var(--transition);
+}
+
+input::placeholder, textarea::placeholder {
+    color: #c5cfcb;
+}
+
+input:focus, select:focus, textarea:focus {
+    background: #3d3d3d;
+    border-color: rgba(37, 198, 229, 0.3);
+}
+
+textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+select {
+    width: 170px;
+    background: #252525;
+    cursor: pointer;
+}
+
+#genreSelect {
+    width: 170px;
+    background: #252525;
+}
+
+/* Modals */
+.detail-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: none;
+}
+
+.detail-modal.is-open {
+    display: block;
+}
+
+.detail-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(5, 8, 8, 0.74);
+    cursor: pointer;
+}
+
+.detail-modal-card {
+    position: relative;
+    z-index: 1;
+    width: min(720px, calc(100vw - 28px));
+    margin: 7vh auto 0;
+    padding: 20px;
+    border-radius: 20px;
+    background: #202323;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    max-height: calc(90vh);
+    overflow-y: auto;
+}
+
+.detail-modal-card .detail-head {
+    margin-bottom: 14px;
+}
+
+.detail-modal-card .detail-actions {
+    margin-top: 14px;
+}
+
+/* Stat Boxes */
+.stat-grid article {
+    padding: 12px;
+    border-radius: 14px;
+    background: #2f3a3c;
+}
+
+.stat-grid strong {
+    display: block;
+    font-size: 1.5rem;
+    margin: 6px 0;
+}
+
+.stat-grid span {
+    display: block;
+    color: var(--muted);
+    font-size: 0.75rem;
+}
+
+/* Detail Metrics */
+.detail-metric {
+    padding: 12px;
+    border-radius: 14px;
+    background: #2f3a3c;
+}
+
+.detail-metric span {
+    display: block;
+    color: var(--muted);
+    font-size: 0.75rem;
+}
+
+.detail-metric strong {
+    display: block;
+    margin-top: 6px;
+    font-size: 1.1rem;
+}
+
+/* Actions & Lists */
+.song-actions, .detail-actions, .admin-row-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.song-actions button, .detail-actions button {
+    padding: 10px 12px;
+    border-radius: 14px;
+    border: none;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.playlist-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+    border-radius: 14px;
+    background: #2d2d2d;
+    margin-bottom: 8px;
+}
+
+.playlist-item strong {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.playlist-item p {
+    margin: 0;
+}
+
+.playlist-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.playlist-actions button {
+    padding: 8px 12px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+}
+
+.user-lock-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+    border-radius: 14px;
+    background: #2d2d2d;
+    margin-bottom: 8px;
+}
+
+.user-lock-row strong {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.user-lock-row button {
+    padding: 8px 12px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+}
+
+/* Song Meta */
+.song-meta, .inline-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 5px;
+    color: var(--muted);
+    font-size: 0.84rem;
+}
+
+/* Labels & Text */
+.eyebrow, .panel-title, .muted, .result-count, .meta-text, .section-label {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.8rem;
+}
+
+.section-label {
+    margin: 18px 0 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+}
+
+/* Promos */
+.promo-card {
+    min-height: 116px;
+    border-radius: 18px;
+    overflow: hidden;
+    position: relative;
+    background:
+        linear-gradient(90deg, rgba(15, 15, 15, 0.3), rgba(15, 15, 15, 0.48)),
+        url("https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=1200&q=80");
+    background-size: cover;
+    background-position: center;
+}
+
+.promo-overlay {
+    position: relative;
+    z-index: 1;
+    padding: 18px;
+}
+
+.promo-overlay strong {
+    display: block;
+    margin: 8px 0 4px;
+    font-size: 1.9rem;
+    font-weight: 800;
+}
+
+/* Progress & Volume */
+.progress-wrap input, .volume-wrap input {
+    width: 100%;
+    accent-color: var(--accent-soft);
+    cursor: pointer;
+}
+
+.cover-art {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: #4b4b4b;
+    color: #fff;
+    font-family: "Sora", sans-serif;
+    font-size: 0.82rem;
+    font-weight: 800;
+}
+
+/* Toast Notifications */
+.toast-container {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    z-index: 61;
+    display: grid;
+    gap: 10px;
+    width: min(320px, calc(100vw - 20px));
+}
+
+.toast {
+    padding: 12px 14px;
+    border-radius: 14px;
+    background: rgba(16, 19, 19, 0.96);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: var(--shadow);
+    animation: slideIn 0.3s ease;
+}
+
+.toast strong {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 0.9rem;
+}
+
+.toast span {
+    display: block;
+    font-size: 0.85rem;
+}
+
+.toast.error {
+    border-color: rgba(255, 100, 100, 0.3);
+}
+
+.toast.success {
+    border-color: rgba(100, 255, 100, 0.3);
+}
+
+.toast.warning {
+    border-color: rgba(255, 200, 100, 0.3);
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Loading Indicator */
+.loading-indicator {
+    position: fixed;
+    top: 12px;
+    left: 50%;
+    z-index: 60;
+    transform: translateX(-50%);
+    padding: 9px 14px;
+    border-radius: 999px;
+    background: rgba(11, 15, 15, 0.94);
+    border: 1px solid rgba(37, 198, 229, 0.2);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition);
+}
+
+body.is-loading .loading-indicator {
+    opacity: 1;
+}
