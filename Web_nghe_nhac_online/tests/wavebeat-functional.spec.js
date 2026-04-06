@@ -2,7 +2,7 @@ const { test, expect } = require("@playwright/test");
 const cases = require("./fixtures/test-cases");
 const { waitForDashboard, songCard } = require("./helpers/ui-helpers");
 
-test.describe.serial("WaveBeat 20 functional cases", () => {
+test.describe("WaveBeat 20 functional cases", () => {
   const unique = Date.now();
   const user = {
     username: `user${unique}`,

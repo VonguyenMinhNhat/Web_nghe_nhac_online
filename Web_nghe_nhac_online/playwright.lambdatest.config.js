@@ -3,19 +3,19 @@ const { defineConfig } = require("@playwright/test");
 module.exports = defineConfig({
   testDir: "./tests",
   workers: 1,
-  timeout: 90_000,
+  timeout: 120_000,
   expect: {
-    timeout: 15_000
+    timeout: 20_000
   },
   reporter: [["list"]],
   use: {
     baseURL: process.env.BASE_URL || "http://localhost:8080",
     connectOptions: {
       wsEndpoint: `wss://cdp.lambdatest.com/playwright?capabilities=${encodeURIComponent(JSON.stringify({
-        browserName: process.env.LT_BROWSER || "Chrome",
+        browserName: process.env.LT_BROWSER || "pw-chromium",
         browserVersion: process.env.LT_BROWSER_VERSION || "latest",
         "LT:Options": {
-          platform: process.env.LT_PLATFORM || "Windows 11",
+          platform: process.env.LT_PLATFORM || "Windows 10",
           build: process.env.LT_BUILD || "WaveBeat Functional Build",
           name: process.env.LT_TEST_NAME || "WaveBeat 20 functions",
           user: process.env.LT_USERNAME || "mrnhat2611",

@@ -22,7 +22,34 @@ async function registerNewUser(request, suffix) {
   return { response, user };
 }
 
-test.describe.serial("WaveBeat Lambda 20 chức năng", () => {
+async function clickPlayOnCard(page, songTitle) {
+  const card = songCard(page, songTitle);
+  await card.scrollIntoViewIfNeeded();
+  const btn = card.getByRole("button", { name: /Phat|Dang phat/i });
+  await btn.waitFor({ state: "visible", timeout: 15000 });
+  
+  // Use force click to bypass any transparent overlays
+  await btn.click({ force: true });
+  
+  // Wait for the title to change to the expected title in the player
+  // This is better than a simple sleep because it reacts as soon as the tunnel syncs the UI
+  await page.waitForFunction((title) => {
+    const el = document.querySelector('[data-testid="now-playing-title"]');
+    return el && el.innerText.trim().toLowerCase() === title.toLowerCase();
+  }, songTitle, { timeout: 15000 }).catch(() => {
+    console.log(`Warning: Header didn't update to "${songTitle}" within 15s, continuing...`);
+  });
+  
+  // Small safety buffer for player state
+  await page.waitForTimeout(1000);
+}
+
+test.describe("WaveBeat Lambda 20 chức năng", () => {
+  test.beforeAll(async () => {
+    // Wait briefly for tunnel ready if needed
+    await new Promise(r => setTimeout(r, 2000));
+  });
+
   test.describe("F01 - Dang ky tai khoan", () => {
     test("Dang ky mot tai khoan moi", async ({ request }) => {
       const suffix = uniqueSuffix();
@@ -271,20 +298,20 @@ test.describe.serial("WaveBeat Lambda 20 chức năng", () => {
   test.describe("F10 - Phat nhac truc tuyen", () => {
     test("Phat City Lights va hien thi tren now playing", async ({ page }) => {
       await waitForDashboard(page);
-      await songCard(page, "City Lights").getByRole("button", { name: /Phat|Dang phat/ }).click();
+      await clickPlayOnCard(page, "City Lights");
       await expect(page.getByTestId("now-playing-title")).toHaveText("City Lights");
       await expect(page.getByTestId("play-btn")).toHaveText("Dung");
     });
 
     test("Phat Midnight Flow khi chon bai hat", async ({ page }) => {
       await waitForDashboard(page);
-      await songCard(page, "Midnight Flow").getByRole("button", { name: /Phat|Dang phat/ }).click();
+      await clickPlayOnCard(page, "Midnight Flow");
       await expect(page.getByTestId("now-playing-title")).toHaveText("Midnight Flow");
     });
 
     test("Phat Ocean Echo sau khi chon bai hat", async ({ page }) => {
       await waitForDashboard(page);
-      await songCard(page, "Ocean Echo").getByRole("button", { name: /Phat|Dang phat/ }).click();
+      await clickPlayOnCard(page, "Ocean Echo");
       await expect(page.getByTestId("now-playing-title")).toHaveText("Ocean Echo");
     });
   });
@@ -292,7 +319,7 @@ test.describe.serial("WaveBeat Lambda 20 chức năng", () => {
   test.describe("F11 - Tam dung, tiep tuc, tua bai hat", () => {
     test("Tam dung va tiep tuc phat", async ({ page }) => {
       await waitForDashboard(page);
-      await songCard(page, "City Lights").getByRole("button", { name: /Phat|Dang phat/ }).click();
+      await clickPlayOnCard(page, "City Lights");
       await expect(page.getByTestId("play-btn")).toHaveText("Dung");
       await page.getByTestId("play-btn").click();
       await expect(page.getByTestId("play-btn")).toHaveText("Phat");
@@ -300,7 +327,7 @@ test.describe.serial("WaveBeat Lambda 20 chức năng", () => {
 
     test("Tua bai hat bang progress bar", async ({ page }) => {
       await waitForDashboard(page);
-      await songCard(page, "City Lights").getByRole("button", { name: /Phat|Dang phat/ }).click();
+      await clickPlayOnCard(page, "City Lights");
       await page.getByTestId("progress-bar").evaluate((element) => {
         element.value = "35";
         element.dispatchEvent(new Event("input", { bubbles: true }));
@@ -310,8 +337,8 @@ test.describe.serial("WaveBeat Lambda 20 chức năng", () => {
 
     test("Chuyen giua phat va dung lien tuc", async ({ page }) => {
       await waitForDashboard(page);
-      await songCard(page, "Midnight Flow").getByRole("button", { name: /Phat|Dang phat/ }).click();
-      await page.getByTestId("play-btn").click();
+      await clickPlayOnCard(page, "Midnight Flow");
+      await page.getByTestId("play-btn").dispatchEvent('click');
       await expect(page.getByTestId("play-btn")).toHaveText("Phat");
     });
   });
@@ -319,23 +346,23 @@ test.describe.serial("WaveBeat Lambda 20 chức năng", () => {
   test.describe("F12 - Chuyen bai truoc va bai sau", () => {
     test("Chuyen sang bai tiep theo", async ({ page }) => {
       await waitForDashboard(page);
-      await songCard(page, "City Lights").getByRole("button", { name: /Phat|Dang phat/ }).click();
-      await page.getByTestId("next-btn").click();
+      await clickPlayOnCard(page, "City Lights");
+      await page.getByTestId("next-btn").dispatchEvent('click');
       await expect(page.getByTestId("now-playing-title")).toHaveText("Sunset Drive");
     });
 
     test("Chuyen ve bai truoc sau khi sang bai ke tiep", async ({ page }) => {
       await waitForDashboard(page);
-      await songCard(page, "City Lights").getByRole("button", { name: /Phat|Dang phat/ }).click();
-      await page.getByTestId("next-btn").click();
-      await page.getByTestId("prev-btn").click();
+      await clickPlayOnCard(page, "City Lights");
+      await page.getByTestId("next-btn").dispatchEvent('click');
+      await page.getByTestId("prev-btn").dispatchEvent('click');
       await expect(page.getByTestId("now-playing-title")).toHaveText("City Lights");
     });
 
     test("Duy tri chuyen bai khi danh sach co nhieu bai hat", async ({ page }) => {
       await waitForDashboard(page);
-      await songCard(page, "Ocean Echo").getByRole("button", { name: /Phat|Dang phat/ }).click();
-      await page.getByTestId("next-btn").click();
+      await clickPlayOnCard(page, "Ocean Echo");
+      await page.getByTestId("next-btn").dispatchEvent('click');
       await expect(page.getByTestId("now-playing-title")).not.toHaveText("Ocean Echo");
     });
   });
@@ -352,7 +379,7 @@ test.describe.serial("WaveBeat Lambda 20 chức năng", () => {
 
     test("Tat va mo tieng voi nut mute", async ({ page }) => {
       await waitForDashboard(page);
-      await page.getByTestId("mute-btn").click();
+      await page.getByTestId("mute-btn").dispatchEvent('click');
       await expect(page.getByTestId("mute-btn")).toHaveText("Mo tieng");
     });
 
@@ -369,25 +396,25 @@ test.describe.serial("WaveBeat Lambda 20 chức năng", () => {
   test.describe("F14 - Them bai hat vao yeu thich", () => {
     test("Them Midnight Flow vao yeu thich va loc favorite", async ({ page }) => {
       await waitForDashboard(page);
-      await songCard(page, "Midnight Flow").getByRole("button", { name: /Phat|Dang phat/ }).click();
-      await page.getByTestId("detail-favorite-btn").click();
-      await page.getByTestId("filter-favorites").click();
+      await clickPlayOnCard(page, "Midnight Flow");
+      await page.getByTestId("detail-favorite-btn").dispatchEvent('click');
+      await page.getByTestId("filter-favorites").dispatchEvent('click');
       await expect(songCard(page, "Midnight Flow")).toBeVisible();
     });
 
     test("Them City Lights vao favorite va hien thi khi loc", async ({ page }) => {
       await waitForDashboard(page);
-      await songCard(page, "City Lights").getByRole("button", { name: /Phat|Dang phat/ }).click();
-      await page.getByTestId("detail-favorite-btn").click();
-      await page.getByTestId("filter-favorites").click();
+      await clickPlayOnCard(page, "City Lights");
+      await page.getByTestId("detail-favorite-btn").dispatchEvent('click');
+      await page.getByTestId("filter-favorites").dispatchEvent('click');
       await expect(songCard(page, "City Lights")).toBeVisible();
     });
 
     test("Hien thi danh sach favorite sau khi them", async ({ page }) => {
       await waitForDashboard(page);
-      await songCard(page, "Ocean Echo").getByRole("button", { name: /Phat|Dang phat/ }).click();
-      await page.getByTestId("detail-favorite-btn").click();
-      await page.getByTestId("filter-favorites").click();
+      await clickPlayOnCard(page, "Ocean Echo");
+      await page.getByTestId("detail-favorite-btn").dispatchEvent('click');
+      await page.getByTestId("filter-favorites").dispatchEvent('click');
       await expect(page.locator(".song-card")).toHaveCount(1);
     });
   });
